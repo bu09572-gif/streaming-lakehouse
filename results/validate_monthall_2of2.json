@@ -1,0 +1,25 @@
+{
+  "scope": {
+    "month": null,
+    "upto": "2/2"
+  },
+  "kafka_messages": 1000898,
+  "bronze_rows": 1000898,
+  "silver_flights": 336776,
+  "silver_status": {
+    "arrived": 327346,
+    "cancelled": 8255,
+    "departed": 1175
+  },
+  "gold_rows": 21144,
+  "gold_rows_checked": 21144,
+  "gold_watermark": "2014-01-01 03:26:00+00:00",
+  "last_event": "2014-01-01 09:01:00+00:00",
+  "checks": {
+    "bronze_rows_minus_kafka_messages": 0,
+    "bronze_repeated_offsets": 0,
+    "silver_rows_differing_from_expected": 0,
+    "gold_closed_hours_differing_from_expected": 0
+  },
+  "passed": true
+}

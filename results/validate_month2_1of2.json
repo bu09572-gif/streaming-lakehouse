@@ -1,0 +1,24 @@
+{
+  "scope": {
+    "month": 2,
+    "upto": "1/2"
+  },
+  "kafka_messages": 36756,
+  "bronze_rows": 36756,
+  "silver_flights": 13479,
+  "silver_status": {
+    "arrived": 11057,
+    "scheduled": 1259,
+    "cancelled": 1061,
+    "departed": 102
+  },
+  "gold_rows": 791,
+  "gold_rows_checked": 791,
+  "checks": {
+    "bronze_rows_minus_kafka_messages": 0,
+    "bronze_repeated_offsets": 0,
+    "silver_rows_differing_from_expected": 0,
+    "gold_closed_hours_differing_from_expected": 0
+  },
+  "passed": true
+}
