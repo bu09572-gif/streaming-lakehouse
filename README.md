@@ -1,5 +1,7 @@
 # Streaming Flight Lakehouse (Kafka, Spark, Delta Lake)
 
+[![tests](https://github.com/bu09572-gif/streaming-lakehouse/actions/workflows/tests.yml/badge.svg)](https://github.com/bu09572-gif/streaming-lakehouse/actions/workflows/tests.yml)
+
 A streaming pipeline that takes flight status changes from Kafka and builds bronze, silver and gold Delta Lake tables with Spark Structured Streaming. I fed it the full real 2013 NYC flights year, 1,000,898 changes, and checked every layer against an answer worked out independently in pandas.
 
 ```
@@ -13,7 +15,7 @@ stream.py           ▼
 validate.py: compares each layer with Kafka and with the source events
 ```
 
-The changes are the same ones the [CDC project](../flight-status-cdc/README.md) uses (`src/flightsdata/events.py`): each flight is scheduled, then departs and arrives, or is cancelled, at the times recorded in the data.
+The changes are the same ones the [CDC project](https://github.com/bu09572-gif/ai-ml-portfolio/blob/main/projects/data-engineering/flight-status-cdc/README.md) uses (`src/flightsdata/events.py`): each flight is scheduled, then departs and arrives, or is cancelled, at the times recorded in the data.
 
 ## Design choices
 
@@ -42,11 +44,11 @@ Speed on a 4-core machine: the producer sends about 42,000 messages a second. Sp
 
 ## Running it
 
-You need Java 17+, a Kafka broker on `localhost:9092` and the raw CSVs (see [Flight Operations Warehouse](../flight-ops-dbt-warehouse/README.md)). Spark downloads the Kafka and Delta packages from Maven the first time it starts.
+You need Java 17+, a Kafka broker on `localhost:9092` and the raw CSVs (see [Flight Operations Warehouse](https://github.com/bu09572-gif/ai-ml-portfolio/blob/main/projects/data-engineering/flight-ops-dbt-warehouse/README.md)). Spark downloads the Kafka and Delta packages from Maven the first time it starts.
 
 ```bash
 pip install pyspark==4.0.1 delta-spark==4.0.0 confluent-kafka pandas numpy
-export PYTHONPATH=../../../src
+export PYTHONPATH=src
 
 # Kafka 4 in KRaft mode, no ZooKeeper
 bin/kafka-storage.sh format --standalone -t $(bin/kafka-storage.sh random-uuid) -c config/server.properties
@@ -55,3 +57,7 @@ bin/kafka-server-start.sh config/server.properties &
 ./run_demo.sh 2      # February: produce, stream, validate, crash, restart, validate (~3 min)
 ./run_demo.sh        # full year
 ```
+
+---
+
+Part of my [AI/ML and data engineering portfolio](https://github.com/bu09572-gif/ai-ml-portfolio), where every project uses real public data and free, open-source tools.

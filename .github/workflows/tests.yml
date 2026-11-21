@@ -1,0 +1,36 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  PYTHONPATH: ${{ github.workspace }}/src
+
+jobs:
+  lakehouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13", cache: pip }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "21" }
+      - run: pip install -r requirements.txt
+      - run: ruff check .
+      - name: Download NYC flights 2013 (BTS / FAA / NOAA, via PyPI)
+        run: python -m flightsdata.source
+      - name: Start Kafka 4 (KRaft)
+        run: |
+          curl -fsSL https://archive.apache.org/dist/kafka/4.2.1/kafka_2.13-4.2.1.tgz | tar xz -C "$HOME"
+          K="$HOME/kafka_2.13-4.2.1"
+          "$K/bin/kafka-storage.sh" format --standalone -t "$("$K/bin/kafka-storage.sh" random-uuid)" -c "$K/config/server.properties"
+          nohup "$K/bin/kafka-server-start.sh" "$K/config/server.properties" > /tmp/kafka.log 2>&1 &
+          for i in $(seq 30); do "$K/bin/kafka-topics.sh" --bootstrap-server localhost:9092 --list && break; sleep 2; done
+          echo "KAFKA_BIN=$K/bin" >> "$GITHUB_ENV"
+      - name: Produce, stream, validate, crash, restart, validate (February)
+        run: CRASH_BATCH=3000 ./run_demo.sh 2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: lakehouse-results, path: results/ }

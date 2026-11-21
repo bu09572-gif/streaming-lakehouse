@@ -18,10 +18,10 @@ from pathlib import Path
 
 import pandas as pd
 from confluent_kafka import Consumer, TopicPartition
-from producer import BOOTSTRAP, TOPIC
-from stream import p, spark_session
 
 from flightsdata.events import build_events, load_flights
+from producer import BOOTSTRAP, TOPIC
+from stream import p, spark_session
 
 OUT = Path(__file__).resolve().parent / "results"
 KEY = ["flight_id", "carrier", "flight", "tailnum", "origin", "dest", "status", "dep_delay", "arr_delay", "air_time"]

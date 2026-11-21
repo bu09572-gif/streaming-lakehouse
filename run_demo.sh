@@ -8,7 +8,7 @@ cd "$(dirname "$0")"
 MONTH=${1:-}
 M=${MONTH:+--month $MONTH}
 PY=${PYTHON:-python}
-LAKE=${LAKE_DIR:-../../../data/lakehouse}
+LAKE=${LAKE_DIR:-data/lakehouse}
 KAFKA_BIN=${KAFKA_BIN:-}
 
 if [ -n "$KAFKA_BIN" ]; then

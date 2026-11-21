@@ -25,7 +25,7 @@ from pyspark.sql import DataFrame, SparkSession, Window
 from pyspark.sql import functions as F
 from pyspark.sql import types as T
 
-ROOT = Path(__file__).resolve().parents[3]
+ROOT = Path(__file__).resolve().parents[0]
 LAKE = os.environ.get("LAKE_DIR", str(ROOT / "data" / "lakehouse"))
 BOOTSTRAP = os.environ.get("KAFKA_BOOTSTRAP", "localhost:9092")
 TOPIC = os.environ.get("KAFKA_TOPIC", "flight-events")
